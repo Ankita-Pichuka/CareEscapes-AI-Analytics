@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareEscapes AI by Ankita Pichuka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --ink:#0D1117;--ink2:#3D4450;--ink3:#6B7380;
+  --surface:#fff;--surface2:#F7F8FA;--surface3:#EEF0F4;
+  --border:rgba(13,17,23,0.09);
+  --accent:#1A3FA8;--accent3:#0E9B6A;--accent4:#C2760A;--accentr:#D93A2A;
+  --teal50:#E1F5EE;--teal600:#0F6E56;
+  --amber50:#FAEEDA;--amber600:#854F0B;
+  --blue50:#E6F1FB;--blue600:#185FA5;--blue800:#0C447C;
+  --coral50:#FAECE7;--coral600:#993C1D;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--surface2);color:var(--ink);line-height:1.6;font-size:15px;}
+
+/* NAV */
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 0;position:sticky;top:0;z-index:200;}
+.nav-inner{max-width:980px;margin:0 auto;padding:0 28px;display:flex;justify-content:space-between;align-items:center;}
+.nav-logo{font-family:'Playfair Display',serif;font-size:17px;color:var(--ink);text-decoration:none;letter-spacing:-0.3px;}
+.nav-links{display:flex;gap:24px;}
+.nav-links a{font-size:13px;color:var(--ink3);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--accent);}
+
+/* HERO */
+.hero{background:var(--ink);color:#fff;padding:90px 28px 76px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-80px;right:-60px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(26,63,168,.28) 0%,transparent 68%);pointer-events:none;}
+.hero::after{content:'';position:absolute;bottom:-50px;left:6%;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(14,155,106,.16) 0%,transparent 68%);pointer-events:none;}
+.hero-inner{max-width:980px;margin:0 auto;position:relative;z-index:1;}
+.hero-eyebrow{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:26px;display:flex;align-items:center;gap:10px;}
+.hero-eyebrow::before{content:'';width:20px;height:1px;background:rgba(255,255,255,.25);}
+.hero h1{font-family:'Playfair Display',serif;font-size:60px;font-weight:700;letter-spacing:-2px;line-height:1.04;margin-bottom:14px;}
+.hero h1 em{font-style:italic;color:rgba(255,255,255,.45);}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.58);font-weight:300;max-width:530px;margin-bottom:46px;line-height:1.72;}
+.hero-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:52px;}
+.pill{padding:5px 13px;border-radius:100px;border:1px solid rgba(255,255,255,.12);font-size:12px;color:rgba(255,255,255,.62);background:rgba(255,255,255,.04);}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);max-width:600px;background:rgba(255,255,255,.06);border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.09);}
+.hs{padding:24px 26px;border-right:1px solid rgba(255,255,255,.07);}
+.hs:last-child{border-right:none;}
+.hs-num{font-family:'Playfair Display',serif;font-size:40px;font-weight:700;color:#fff;line-height:1;}
+.hs-label{font-size:11.5px;color:rgba(255,255,255,.38);margin-top:6px;line-height:1.4;}
+
+/* MAIN */
+main{max-width:980px;margin:0 auto;padding:68px 28px 96px;}
+.section{margin-bottom:84px;}
+.section-eyebrow{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.section-eyebrow::before{content:'';width:20px;height:1px;background:var(--ink3);}
+.section h2{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;letter-spacing:-0.8px;margin-bottom:32px;color:var(--ink);}
+p.lead{font-size:15.5px;line-height:1.78;color:var(--ink2);max-width:700px;margin-bottom:30px;}
+
+/* CARDS */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 24px;}
+.card h3{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:8px;}
+.card p{font-size:13.5px;color:var(--ink3);line-height:1.65;}
+.card-icon{font-size:18px;margin-bottom:12px;}
+
+/* FINDING CARDS */
+.finding{border-radius:12px;padding:26px 24px;}
+.finding.blue{background:var(--blue50);border:1px solid rgba(24,95,165,.12);}
+.finding.teal{background:var(--teal50);border:1px solid rgba(15,110,86,.12);}
+.finding.amber{background:var(--amber50);border:1px solid rgba(133,79,11,.12);}
+.finding.coral{background:var(--coral50);border:1px solid rgba(153,60,29,.12);}
+.finding-num{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;line-height:1;margin-bottom:10px;}
+.finding.blue .finding-num{color:var(--blue600);}
+.finding.teal .finding-num{color:var(--teal600);}
+.finding.amber .finding-num{color:var(--amber600);}
+.finding.coral .finding-num{color:var(--coral600);}
+.finding h3{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:7px;}
+.finding p{font-size:13px;line-height:1.65;color:var(--ink2);}
+
+/* CHART PANELS */
+.chart-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 28px 24px;margin-bottom:18px;}
+.chart-panel + .chart-panel{margin-top:0;}
+.cp-title{font-size:15px;font-weight:500;color:var(--ink);margin-bottom:3px;}
+.cp-sub{font-size:12.5px;color:var(--ink3);margin-bottom:20px;}
+.chart-insight{margin-top:18px;padding:13px 16px;background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;}
+.chart-insight p{font-size:13px;color:var(--ink2);line-height:1.65;}
+.chart-insight strong{color:var(--ink);font-weight:500;}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:18px;}
+.leg{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink3);}
+.leg-sq{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+
+/* METHODOLOGY */
+.mstep{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid var(--border);}
+.mstep:last-child{border-bottom:none;}
+.mstep-num{width:32px;height:32px;border-radius:50%;background:var(--ink);color:#fff;font-family:'DM Mono',monospace;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.mstep h3{font-size:15px;font-weight:500;color:var(--ink);margin-bottom:6px;}
+.mstep p{font-size:13.5px;color:var(--ink3);line-height:1.65;}
+.mtag{display:inline-block;font-size:11px;padding:3px 10px;border-radius:100px;margin-top:8px;font-weight:500;}
+.mtag.blue{background:var(--blue50);color:var(--blue600);}
+.mtag.teal{background:var(--teal50);color:var(--teal600);}
+.mtag.amber{background:var(--amber50);color:var(--amber600);}
+.mtag.coral{background:var(--coral50);color:var(--coral600);}
+
+/* RECOMMENDATIONS */
+.rec{display:flex;gap:18px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;transition:border-color .2s;}
+.rec:hover{border-color:rgba(26,63,168,.3);}
+.rec-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.rec-icon.blue{background:var(--blue50);}
+.rec-icon.teal{background:var(--teal50);}
+.rec-icon.amber{background:var(--amber50);}
+.rec-icon.coral{background:var(--coral50);}
+.rec h3{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:5px;}
+.rec p{font-size:13px;color:var(--ink3);line-height:1.65;}
+
+/* SKILLS */
+.skill-chips{display:flex;flex-wrap:wrap;gap:10px;}
+.chip{padding:8px 16px;border-radius:8px;background:var(--surface);border:1px solid var(--border);font-size:13px;color:var(--ink2);}
+
+/* IMPACT METRICS */
+.impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+.impact-card{background:var(--ink);border-radius:12px;padding:24px 20px;text-align:center;}
+.impact-num{font-family:'Playfair Display',serif;font-size:32px;color:#fff;font-weight:700;margin-bottom:6px;line-height:1;}
+.impact-label{font-size:12px;color:rgba(255,255,255,.45);line-height:1.5;}
+
+/* ============================================================
+   SAVINGS CALCULATOR
+   ============================================================ */
+.calculator{
+  background:var(--ink);
+  border-radius:16px;
+  padding:40px 40px 36px;
+  position:relative;
+  overflow:hidden;
+}
+.calculator::before{
+  content:'';position:absolute;top:-60px;right:-40px;
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(26,63,168,.35) 0%,transparent 68%);
+  pointer-events:none;
+}
+.calc-title{font-family:'Playfair Display',serif;font-size:28px;color:#fff;font-weight:700;letter-spacing:-0.5px;margin-bottom:6px;position:relative;}
+.calc-sub{font-size:14px;color:rgba(255,255,255,.5);margin-bottom:36px;position:relative;}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px;position:relative;}
+.calc-field label{display:block;font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:8px;}
+.calc-field select, .calc-field input[type=range]{
+  width:100%;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:8px;
+  color:#fff;
+  font-family:'DM Sans',sans-serif;
+  font-size:14px;
+  padding:11px 14px;
+  appearance:none;
+  -webkit-appearance:none;
+  cursor:pointer;
+  transition:border-color .2s;
+}
+.calc-field select:hover,.calc-field select:focus{border-color:rgba(255,255,255,.28);outline:none;}
+.calc-field select option{background:#1a1f2e;color:#fff;}
+.range-wrap{position:relative;}
+.range-wrap input[type=range]{
+  padding:0;
+  height:4px;
+  cursor:pointer;
+  border-radius:100px;
+  accent-color:#1A3FA8;
+}
+.range-val{font-size:22px;font-weight:500;color:#fff;font-family:'DM Mono',monospace;margin-top:8px;}
+.calc-result{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;
+  padding:28px;
+  position:relative;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:1px;
+}
+.cr-divider{background:rgba(255,255,255,.08);width:1px;}
+.cr-item{padding:0 24px;text-align:center;}
+.cr-item:first-child{padding-left:0;}
+.cr-item:last-child{padding-right:0;}
+.cr-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:8px;}
+.cr-value{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:#fff;line-height:1;}
+.cr-value.green{color:#34D399;}
+.cr-value.red{color:#F87171;}
+.cr-note{font-size:12px;color:rgba(255,255,255,.35);margin-top:6px;line-height:1.4;}
+.calc-breakdown{margin-top:20px;position:relative;}
+.cb-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.cb-row:last-child{border-bottom:none;}
+.cb-row-label{font-size:13px;color:rgba(255,255,255,.5);}
+.cb-row-val{font-family:'DM Mono',monospace;font-size:13px;color:rgba(255,255,255,.75);}
+.cb-row-val.saving{color:#34D399;font-weight:500;}
+.calc-disclaimer{font-size:11.5px;color:rgba(255,255,255,.25);margin-top:20px;line-height:1.6;position:relative;}
+
+/* FOOTER */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:40px 28px;text-align:center;}
+.footer-inner{max-width:980px;margin:0 auto;}
+.footer-name{font-family:'Playfair Display',serif;font-size:20px;color:var(--ink);margin-bottom:8px;}
+.footer-links{display:flex;justify-content:center;gap:22px;margin-bottom:10px;flex-wrap:wrap;}
+.footer-links a{font-size:13px;color:var(--accent);text-decoration:none;}
+.footer-links a:hover{text-decoration:underline;}
+.footer-copy{font-size:12px;color:var(--ink3);}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* CHART GRID */
+.chart-grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+
+@media(max-width:680px){
+  .hero h1{font-size:38px;}
+  .hero-stats{grid-template-columns:1fr;max-width:260px;}
+  .grid2,.grid4,.chart-grid2,.calc-grid,.calc-result,.impact-grid{grid-template-columns:1fr;}
+  .calculator{padding:28px 22px;}
+  .cr-divider{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="https://ankita-pichuka.netlify.app" class="nav-logo">Ankita Pichuka</a>
+    <div class="nav-links">
+      <a href="https://ankita-pichuka.netlify.app">Portfolio</a>
+      <a href="https://github.com/Ankita-Pichuka/CareEscapes-AI-Analytics" target="_blank">GitHub</a>
+      <a href="https://linkedin.com/in/ankita-pichuka" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Sponsor Project &nbsp;·&nbsp; ALY 6080 &nbsp;·&nbsp; Northeastern University &nbsp;·&nbsp; 2026</div>
+    <h1>CareEscapes <em>AI</em></h1>
+    <p class="hero-sub">Analytics-driven decision support for medical tourism. I uncovered cost drivers, benchmarking global destinations, and building the data foundation for an AI recommendation engine.</p>
+    <div class="hero-pills">
+      <span class="pill">Exploratory Data Analysis</span>
+      <span class="pill">Power BI</span>
+      <span class="pill">Cost Modeling</span>
+      <span class="pill">Business Analytics</span>
+      <span class="pill">Data Storytelling</span>
+      <span class="pill">Stakeholder Presentation</span>
+      <span class="pill">Excel</span>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:52px;">
+      <a href="https://github.com/Ankita-Pichuka/CareEscapes-AI-Analytics" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;text-decoration:none;font-size:13px;font-weight:500;transition:background .2s;" onmouseover="this.style.background='rgba(255,255,255,.14)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        View on GitHub
+      </a>
+      <a href="https://app.powerbi.com/groups/me/reports/ce837222-c2f5-4e8e-a309-73e646c257b1" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;background:rgba(243,185,54,.12);border:1px solid rgba(243,185,54,.25);color:#F3B936;text-decoration:none;font-size:13px;font-weight:500;transition:background .2s;" onmouseover="this.style.background='rgba(243,185,54,.2)'" onmouseout="this.style.background='rgba(243,185,54,.12)'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3a2 2 0 00-2 2v14a2 2 0 002 2h18a2 2 0 002-2V5a2 2 0 00-2-2zm-9 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+        Power BI Dashboard (requires login)
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-num">60–75%</div><div class="hs-label">Cost savings for complex procedures abroad</div></div>
+      <div class="hs"><div class="hs-num">270 to 5</div><div class="hs-label">Days wait time eliminated for complex cases</div></div>
+      <div class="hs"><div class="hs-num">~58%</div><div class="hs-label">Of total patient cost is airfare, the #1 lever</div></div>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <!-- OVERVIEW -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Overview</div>
+    <h2>Project at a Glance</h2>
+    <p class="lead">CareEscapes AI is building a platform that helps patients navigate global healthcare decisions: affordable treatment, minimal wait times, transparent costs. I joined as a graduate analyst to conduct the data analysis underpinning their AI recommendation engine, working directly with the founding team.</p>
+    <div class="grid2">
+      <div class="card"><div class="card-icon">🏥</div><h3>Business Problem</h3><p>Patients face fragmented pricing, hidden travel costs, and zero transparency on wait times when exploring medical tourism. CareEscapes needed data to power a trustworthy recommendation engine.</p></div>
+      <div class="card"><div class="card-icon">🎯</div><h3>My Role</h3><p>End-to-end EDA on the financial dataset, Power BI dashboard development across 11 analytical views, cost structure decomposition, and a strategic recommendations framework delivered to the founding team.</p></div>
+      <div class="card"><div class="card-icon">📊</div><h3>Dataset Scope</h3><p>Multi-tab financial plan covering 4 dental procedures × 4 countries, 5-year operational projections ($1M to $57M), per-patient cost breakdowns, and wait-time data across domestic and international destinations.</p></div>
+      <div class="card"><div class="card-icon">💡</div><h3>Business Impact</h3><p>Findings shaped the platform's pricing strategy, redirected partnership focus toward airlines (the dominant cost driver), and validated the LTV:CAC unit economics at 45:1 for investor discussions.</p></div>
+    </div>
+  </section>
+
+  <!-- METHODOLOGY -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Methodology</div>
+    <h2>Analytical Approach</h2>
+    <div>
+      <div class="mstep"><div class="mstep-num">01</div><div><h3>Starting with the data: what do we actually have?</h3><p>The first thing I did was sit with the financial plan and ask: what's real here, and what's a projection? I mapped out treatment costs across four countries, separated the fixed expenses from the variable ones, and got a clear picture of how patient volume was expected to scale from 100 patients in Year 1 to 15,000 by Year 5. Before I built anything, I needed to trust the numbers.</p><span class="mtag blue">EDA · Data Cleaning</span></div></div>
+      <div class="mstep"><div class="mstep-num">02</div><div><h3>The airfare finding that changed everything</h3><p>I went in expecting treatment cost to be the big story. It wasn't. When I broke down what a patient actually pays: treatment, flight, hotel. airfare came out at 58% of the total bill. Every year, every volume scenario, same number. That's when I told the team: your biggest cost-reduction lever isn't negotiating with clinics, it's getting an airline deal. That single insight reframed a major part of the product strategy.</p><span class="mtag amber">Cost Modeling · Feature Engineering</span></div></div>
+      <div class="mstep"><div class="mstep-num">03</div><div><h3>Benchmarking destinations: where does the real value live?</h3><p>I compared the full cost of care, not just the procedure price, but flights and accommodation included, across the US, Canada, Mexico, and Costa Rica. The numbers were striking. For a Full Arch Restoration, a patient spends $32,500 in the US. In Mexico, even after a flight and a week in a hotel, they're paying under $12,000. The more complex the procedure, the stronger the case for traveling. That's where CareEscapes wins.</p><span class="mtag teal">Comparative Analysis · Benchmarking</span></div></div>
+      <div class="mstep"><div class="mstep-num">04</div><div><h3>Wait times: the argument beyond price</h3><p>Some patients aren't primarily motivated by cost. They're in pain, or they've been waiting months with no end in sight. So I pulled the wait-time data and the contrast was stark. Full Mouth Restoration: up to 270 days in the US or Canada. Abroad: roughly 5 days. I flagged this to the team as a separate conversion story entirely, one that speaks to urgency, not just savings. The recommendation engine needed to surface this for the right patients.</p><span class="mtag coral">Time Analysis · Decision Modeling</span></div></div>
+      <div class="mstep"><div class="mstep-num">05</div><div><h3>Turning it into something the team could actually use</h3><p>The analysis was only useful if the founding team could explore it themselves. I built an 11-page Power BI dashboard covering everything from a treemap of expense categories to a scatter plot of profit vs. patient volume growth. The goal was to give Shiv and the team a tool they could open before any investor meeting and answer questions on the spot, without needing to run a new analysis each time.</p><span class="mtag blue">Power BI · Data Visualization</span></div></div>
+    </div>
+  </section>
+
+  <!-- KEY FINDINGS -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Key Findings</div>
+    <h2>What the Data Revealed</h2>
+    <div class="grid2">
+      <div class="finding blue"><div class="finding-num">60–75%</div><h3>Treatment savings abroad</h3><p>Full Arch Restoration: $32.5K in the US, $10.8K in Mexico. Even after adding flights and hotels the total cost abroad is dramatically lower.</p></div>
+      <div class="finding amber"><div class="finding-num">~58%</div><h3>Airfare dominates cost</h3><p>Airfare is the single largest component of patient spend, consistent across all years and volume levels. Airline partnerships are the highest-leverage opportunity.</p></div>
+      <div class="finding teal"><div class="finding-num">270 to 5</div><h3>Days wait time eliminated</h3><p>Complex procedures take 6–12 months domestically. Abroad: ~5 days. This time advantage is the strongest non-price conversion driver for urgent patients.</p></div>
+      <div class="finding coral"><div class="finding-num">45:1</div><h3>LTV-to-CAC ratio</h3><p>With $21K–$36K patient LTV against a $460 CAC, unit economics validate aggressive acquisition. Year 5 projects $105M–$180M revenue at 15,000 patients.</p></div>
+    </div>
+  </section>
+
+  <!-- CHARTS: COST BY COUNTRY -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Power BI Analysis</div>
+    <h2>Interactive Visualizations</h2>
+
+    <!-- Chart 1: Cost by Country -->
+    <div class="chart-panel">
+      <div class="cp-title">Average cost by procedure &amp; country (USD)</div>
+      <div class="cp-sub">From Power BI: "Average Cost by Category and Country": treatment cost only, mid-point of ranges</div>
+      <div class="legend">
+        <div class="leg"><div class="leg-sq" style="background:#1A3FA8;"></div>USA</div>
+        <div class="leg"><div class="leg-sq" style="background:#0E9B6A;"></div>Canada</div>
+        <div class="leg"><div class="leg-sq" style="background:#C2760A;"></div>Mexico</div>
+        <div class="leg"><div class="leg-sq" style="background:#D93A2A;"></div>Costa Rica</div>
+      </div>
+      <div style="position:relative;width:100%;height:320px;">
+        <canvas id="costByCountry" role="img" aria-label="Grouped bar chart showing average procedure costs across USA, Canada, Mexico, and Costa Rica. USA is consistently the most expensive, Mexico and Costa Rica 60-75% lower.">Average treatment costs by country and procedure type.</canvas>
+      </div>
+      <div class="chart-insight"><p><strong>Key insight:</strong> Full Arch Restoration costs $32.5K in the US vs. $10.8K in Mexico, a 67% saving before even accounting for travel. Mexico and Costa Rica are near-equivalent in value, giving patients a choice of destination.</p></div>
+    </div>
+
+    <!-- Chart 2: Wait Times -->
+    <div class="chart-panel">
+      <div class="cp-title">Which procedure benefits most from going abroad?</div>
+      <div class="cp-sub">From Power BI: "Wait Time for Procedure by Country": average number of waiting days</div>
+      <div class="legend">
+        <div class="leg"><div class="leg-sq" style="background:#3D4450;"></div>USA</div>
+        <div class="leg"><div class="leg-sq" style="background:#1A3FA8;"></div>Canada</div>
+        <div class="leg"><div class="leg-sq" style="background:#0E9B6A;"></div>Mexico / Costa Rica (abroad)</div>
+      </div>
+      <div style="position:relative;width:100%;height:280px;">
+        <canvas id="waitTimes" role="img" aria-label="Horizontal bar chart comparing wait times in days. US and Canada wait times are 45 to 270 days depending on procedure. Abroad is consistently 5 days.">Wait time comparison showing dramatic reduction when traveling abroad for dental procedures.</canvas>
+      </div>
+      <div class="chart-insight"><p><strong>Key insight:</strong> The wait-time advantage is most dramatic for complex procedures: Full Mouth Restoration patients wait up to <strong>270 days in the US or Canada</strong> vs. just <strong>5 days abroad</strong>. For urgent cases, this is the primary conversion driver.</p></div>
+    </div>
+
+    <!-- Charts 3+4: Financials side by side -->
+    <div class="chart-grid2">
+      <div class="chart-panel" style="margin-bottom:0;">
+        <div class="cp-title">Total expenses by year</div>
+        <div class="cp-sub">From Power BI: "Total Expenses by Year": $1M to $57M → $57M</div>
+        <div style="position:relative;width:100%;height:240px;">
+          <canvas id="totalExpenses" role="img" aria-label="Bar chart showing total expenses growing from 1 million in Year 1 to 57 million in Year 5 as patient volume scales.">Total expenses by year showing rapid scale-up.</canvas>
+        </div>
+      </div>
+      <div class="chart-panel" style="margin-bottom:0;">
+        <div class="cp-title">Minimum &amp; maximum profit by year</div>
+        <div class="cp-sub">From Power BI: "Min and Max Profit by Year"</div>
+        <div style="position:relative;width:100%;height:240px;">
+          <canvas id="profitRange" role="img" aria-label="Line chart showing minimum and maximum profit trajectories across 5 years. Profit turns positive in Year 2 high scenario and scales to over 100 million by Year 5.">Profit range by year showing growth trajectory.</canvas>
+        </div>
+      </div>
+    </div>
+    <div style="height:18px;"></div>
+
+    <!-- Chart 5: Patient cost by year (Medical/Hotel/Airplane) -->
+    <div class="chart-panel">
+      <div class="cp-title">Distribution of medical, hotel, and airplane costs over the years</div>
+      <div class="cp-sub">From Power BI: patient-facing operational costs as volume scales from 100 to 15,000 patients</div>
+      <div class="legend">
+        <div class="leg"><div class="leg-sq" style="background:#1A3FA8;"></div>Medical</div>
+        <div class="leg"><div class="leg-sq" style="background:#C2760A;"></div>Hotel</div>
+        <div class="leg"><div class="leg-sq" style="background:#D93A2A;"></div>Airplane</div>
+      </div>
+      <div style="position:relative;width:100%;height:280px;">
+        <canvas id="costByYear" role="img" aria-label="Clustered column chart showing medical, hotel, and airplane costs each year. All three scale proportionally as patient volume grows.">Patient cost components broken down by year.</canvas>
+      </div>
+    </div>
+
+    <!-- Chart 6: Cost structure 100% stacked -->
+    <div class="chart-panel">
+      <div class="cp-title">Does cost structure change as volume increases?</div>
+      <div class="cp-sub">From Power BI: "Cost Structure by Volume": 100% stacked column chart across all 5 years</div>
+      <div class="legend">
+        <div class="leg"><div class="leg-sq" style="background:#D93A2A;"></div>Airplane (58.14%)</div>
+        <div class="leg"><div class="leg-sq" style="background:#C2760A;"></div>Hotel (18.60%)</div>
+        <div class="leg"><div class="leg-sq" style="background:#1A3FA8;"></div>Medical (23.26%)</div>
+      </div>
+      <div style="position:relative;width:100%;height:220px;">
+        <canvas id="costStructure" role="img" aria-label="100 percent stacked bar chart showing cost proportions remain constant across years. Airplane costs are consistently 58 percent, hotel 18.6 percent, medical 23.26 percent.">Cost structure remains consistent across all years showing airfare dominance.</canvas>
+      </div>
+      <div class="chart-insight"><p><strong>Key insight:</strong> Cost structure is <strong>perfectly stable</strong> across all 5 years regardless of volume: 58.14% airfare, 23.26% treatment, 18.60% hotel. This means airline partnerships have the same outsized impact at 100 patients or 15,000 patients.</p></div>
+    </div>
+
+    <!-- Chart 7: Expense scaling line -->
+    <div class="chart-panel">
+      <div class="cp-title">Which expense category scales fastest?</div>
+      <div class="cp-sub">From Power BI: "Increase in Expense by Year": total patient costs dominate all other categories</div>
+      <div style="position:relative;width:100%;height:280px;">
+        <canvas id="expenseScaling" role="img" aria-label="Multi-line chart showing expense categories over 5 years. Total patient costs grow the fastest, far outpacing staffing and operational expenses.">Expense category scaling over 5 years.</canvas>
+      </div>
+      <div class="chart-insight"><p><strong>Key insight:</strong> Total patient costs scale dramatically faster than all operational categories: by Year 5 they dwarf staffing, marketing, and technology costs combined. This validates a patient-acquisition-first growth strategy.</p></div>
+    </div>
+  </section>
+
+  <!-- LIVE CALCULATOR -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Interactive Tool</div>
+    <h2>Patient Savings Calculator</h2>
+    <p class="lead">One of my core recommendations was building a transparent cost comparison tool into the CareEscapes platform. Here's a working prototype based on the financial data I analyzed.</p>
+    <div class="calculator">
+      <div class="calc-title">How much could you save?</div>
+      <div class="calc-sub">Built from real CareEscapes AI financial data. Select your procedure and destination</div>
+      <div class="calc-grid">
+        <div class="calc-field">
+          <label>Procedure</label>
+          <select id="calc-procedure">
+            <option value="implant">Single Dental Implant</option>
+            <option value="crown">Abutment &amp; Crown</option>
+            <option value="arch" selected>Full Arch Restoration (All-on-4)</option>
+            <option value="fullmouth">Full Mouth Restoration</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label>Destination</label>
+          <select id="calc-dest">
+            <option value="mexico" selected>Mexico</option>
+            <option value="costarica">Costa Rica</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label>Flight cost estimate</label>
+          <div class="range-wrap">
+            <input type="range" id="calc-flight" min="150" max="600" value="275" step="25">
+            <div class="range-val" id="flight-val">$275</div>
+          </div>
+        </div>
+        <div class="calc-field">
+          <label>Hotel nights</label>
+          <div class="range-wrap">
+            <input type="range" id="calc-nights" min="1" max="14" value="5" step="1">
+            <div class="range-val" id="nights-val">5 nights</div>
+          </div>
+        </div>
+      </div>
+      <div class="calc-result">
+        <div class="cr-item">
+          <div class="cr-label">US / Canada cost</div>
+          <div class="cr-value red" id="res-us">$32,500</div>
+          <div class="cr-note">Treatment only</div>
+        </div>
+        <div class="cr-divider"></div>
+        <div class="cr-item">
+          <div class="cr-label">Abroad total</div>
+          <div class="cr-value" id="res-abroad">$11,700</div>
+          <div class="cr-note">Treatment + flight + hotel</div>
+        </div>
+        <div class="cr-divider"></div>
+        <div class="cr-item">
+          <div class="cr-label">You save</div>
+          <div class="cr-value green" id="res-saving">$20,800</div>
+          <div class="cr-note" id="res-pct">64% savings</div>
+        </div>
+      </div>
+      <div class="calc-breakdown">
+        <div class="cb-row"><span class="cb-row-label">Treatment cost abroad</span><span class="cb-row-val" id="bd-treatment">$10,750</span></div>
+        <div class="cb-row"><span class="cb-row-label">Round-trip airfare</span><span class="cb-row-val" id="bd-flight">$275</span></div>
+        <div class="cb-row"><span class="cb-row-label">Hotel accommodation</span><span class="cb-row-val" id="bd-hotel">$675</span></div>
+        <div class="cb-row"><span class="cb-row-label">Total abroad cost</span><span class="cb-row-val" id="bd-total">$11,700</span></div>
+        <div class="cb-row"><span class="cb-row-label">Wait time abroad</span><span class="cb-row-val saving">~5 days vs. up to 270 days domestically</span></div>
+      </div>
+      <div class="calc-disclaimer">* Estimates based on CareEscapes AI financial plan mid-point values. Actual costs vary by provider, timing, and individual case complexity. This tool is for illustrative purposes.</div>
+    </div>
+  </section>
+
+  <!-- RECOMMENDATIONS -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Recommendations</div>
+    <h2>Strategic Actions I Proposed</h2>
+    <div class="rec"><div class="rec-icon blue">✈️</div><div><h3>Airline partnerships: the highest-leverage move</h3><p>Airfare is 58% of total patient cost, consistent across all years and volumes. Negotiated bulk fares or co-branded travel bundles would deliver the single largest reduction in patient spend, directly improving conversion.</p></div></div>
+    <div class="rec"><div class="rec-icon teal">📦</div><div><h3>Bundled all-inclusive pricing model</h3><p>Patients currently face fragmented quotes from clinics, airlines, and hotels separately. A single bundled package removes decision friction and increases the platform's perceived value vs. DIY medical tourism.</p></div></div>
+    <div class="rec"><div class="rec-icon amber">📊</div><div><h3>Transparent total-cost comparison dashboard</h3><p>Surface full cost comparisons (treatment + travel + hotel + wait time): not just treatment price. This multi-dimensional view builds the trust that drives conversion for high-stakes healthcare decisions.</p></div></div>
+    <div class="rec"><div class="rec-icon coral">🤖</div><div><h3>AI recommendation engine: data input framework</h3><p>This analysis defines the three core inputs for a recommendation model: budget threshold, urgency tier (wait-time sensitivity), and procedure complexity. These three variables fully stratify the patient decision space.</p></div></div>
+  </section>
+
+  <!-- BUSINESS IMPACT -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Business Impact</div>
+    <h2>What This Work Enabled</h2>
+    <div class="impact-grid">
+      <div class="impact-card"><div class="impact-num">45:1</div><div class="impact-label">LTV-to-CAC validated through financial modeling</div></div>
+      <div class="impact-card"><div class="impact-num">11</div><div class="impact-label">Power BI dashboard views delivered to founding team</div></div>
+      <div class="impact-card"><div class="impact-num">$105M+</div><div class="impact-label">Projected Year 5 revenue, backed by cost analysis</div></div>
+    </div>
+    <p class="lead">The airfare finding specifically redirected partnership strategy, shifting from provider-only relationships to travel-integrated bundling. The cost structure stability finding (58% airfare across all years) gave the team confidence that airline partnerships remain the #1 lever even at scale.</p>
+  </section>
+
+  <!-- TOOLS -->
+  <section class="section reveal">
+    <div class="section-eyebrow">Tools &amp; Skills</div>
+    <h2>What I Used</h2>
+    <div class="skill-chips">
+      <div class="chip">Power BI</div>
+      <div class="chip">Microsoft Excel</div>
+      <div class="chip">Exploratory Data Analysis</div>
+      <div class="chip">Cost Modeling</div>
+      <div class="chip">Business Analytics</div>
+      <div class="chip">Data Storytelling</div>
+      <div class="chip">Stakeholder Presentations</div>
+      <div class="chip">Competitive Benchmarking</div>
+      <div class="chip">Financial Plan Analysis</div>
+      <div class="chip">Strategic Recommendations</div>
+      <div class="chip">DAX (Power BI measures)</div>
+      <div class="chip">Data Visualization Design</div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-name">Ankita Pichuka</div>
+    <div class="footer-links">
+      <a href="https://ankita-pichuka.netlify.app">Portfolio</a>
+      <a href="https://github.com/Ankita-Pichuka/CareEscapes-AI-Analytics" target="_blank">GitHub Repo</a>
+      <a href="https://linkedin.com/in/ankita-pichuka" target="_blank">LinkedIn</a>
+      <a href="mailto:ankitapichuka@gmail.com">Email</a>
+    </div>
+    <div class="footer-copy">M.S. Analytics (Applied Machine Intelligence) · Northeastern University · Boston, MA</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+Chart.defaults.color = '#6B7380';
+
+const COLORS = {
+  usa:       '#3D4450',
+  canada:    '#1A3FA8',
+  mexico:    '#C2760A',
+  costarica: '#D93A2A',
+  teal:      '#0E9B6A',
+  airfare:   '#D93A2A',
+  hotel:     '#C2760A',
+  medical:   '#1A3FA8',
+  profit_min:'#185FA5',
+  profit_max:'#0E9B6A',
+};
+
+const gridOpts = {
+  color: 'rgba(13,17,23,0.06)',
+};
+
+/* ── CHART 1: Cost by Country (grouped bar) ── */
+new Chart(document.getElementById('costByCountry'), {
+  type: 'bar',
+  data: {
+    labels: ['Full Arch Restoration', 'Full Mouth Restoration', 'Single Dental Implant', 'Abutment & Crown'],
+    datasets: [
+      { label:'USA',       data:[32500,70000,4000,2300], backgroundColor:COLORS.usa,       borderRadius:3 },
+      { label:'Canada',    data:[27500,65000,3650,2000], backgroundColor:COLORS.canada,    borderRadius:3 },
+      { label:'Mexico',    data:[10750,20500, 850, 900], backgroundColor:COLORS.mexico,    borderRadius:3 },
+      { label:'Costa Rica',data:[11250,23000,1150,1100], backgroundColor:COLORS.costarica, borderRadius:3 },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: ctx => ' ' + ctx.dataset.label + ': $' + ctx.raw.toLocaleString() }}},
+    scales:{
+      x:{ grid:gridOpts, ticks:{ maxRotation:0 } },
+      y:{ grid:gridOpts, ticks:{ callback: v => '$'+(v>=1000?(v/1000)+'K':v) }}
+    }
+  }
+});
+
+/* ── CHART 2: Wait Times (horizontal bar) ── */
+new Chart(document.getElementById('waitTimes'), {
+  type: 'bar',
+  data: {
+    labels: ['Full Mouth\nRestoration', 'Full Arch\nRestoration', 'Single Dental\nImplant', 'Abutment\n& Crown'],
+    datasets: [
+      { label:'USA',    data:[270,135,60,45], backgroundColor:COLORS.usa,    borderRadius:3 },
+      { label:'Canada', data:[270,135,90,75], backgroundColor:COLORS.canada, borderRadius:3 },
+      { label:'Abroad', data:[5,5,5,5],       backgroundColor:COLORS.teal,   borderRadius:3 },
+    ]
+  },
+  options: {
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.raw + ' days' }}},
+    scales:{
+      x:{ grid:gridOpts, ticks:{ callback: v => v+'d' } },
+      y:{ grid:{ display:false } }
+    }
+  }
+});
+
+/* ── CHART 3: Total Expenses by Year ── */
+new Chart(document.getElementById('totalExpenses'), {
+  type: 'bar',
+  data: {
+    labels: ['Yr 1\n100 pts', 'Yr 2\n500 pts', 'Yr 3\n1K pts', 'Yr 4\n5K pts', 'Yr 5\n15K pts'],
+    datasets:[{
+      label:'Total Expenses',
+      data:[1,4,7,22,57],
+      backgroundColor:[COLORS.canada,COLORS.canada,COLORS.canada,COLORS.canada,COLORS.canada],
+      borderRadius:4
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: ctx => ' $'+ctx.raw+'M' }}},
+    scales:{
+      x:{ grid:{ display:false } },
+      y:{ grid:gridOpts, ticks:{ callback: v => '$'+v+'M' } }
+    }
+  }
+});
+
+/* ── CHART 4: Profit Range ── */
+new Chart(document.getElementById('profitRange'), {
+  type: 'line',
+  data: {
+    labels: ['Yr 1', 'Yr 2', 'Yr 3', 'Yr 4', 'Yr 5'],
+    datasets:[
+      { label:'Max Profit', data:[-84, 2450, 4660, 38465, 122675].map(v=>Math.round(v/1000)), borderColor:COLORS.profit_max, backgroundColor:'rgba(14,155,106,.08)', fill:true, tension:.35, pointRadius:4, pointBackgroundColor:COLORS.profit_max },
+      { label:'Min Profit', data:[-584,-50,-340,13465,47675].map(v=>Math.round(v/1000)), borderColor:COLORS.profit_min, backgroundColor:'rgba(26,63,168,.05)', fill:true, tension:.35, pointRadius:4, pointBackgroundColor:COLORS.profit_min, borderDash:[4,3] },
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: ctx => ' '+ ctx.dataset.label+': $'+ctx.raw+'K' }}},
+    scales:{
+      x:{ grid:{ display:false } },
+      y:{ grid:gridOpts, ticks:{ callback: v => '$'+v+'K' } }
+    }
+  }
+});
+
+/* ── CHART 5: Patient Cost by Year (Medical/Hotel/Airplane) ── */
+new Chart(document.getElementById('costByYear'), {
+  type: 'bar',
+  data: {
+    labels: ['Yr 1\n100 pts', 'Yr 2\n500 pts', 'Yr 3\n1K pts', 'Yr 4\n5K pts', 'Yr 5\n15K pts'],
+    datasets:[
+      { label:'Medical',  data:[0.2,1.0,2.0,10.0,30.0], backgroundColor:COLORS.medical,  borderRadius:3 },
+      { label:'Hotel',    data:[0.1,0.3,0.6, 3.2, 9.6], backgroundColor:COLORS.hotel,    borderRadius:3 },
+      { label:'Airplane', data:[0.1,0.4,0.8, 4.0,12.0], backgroundColor:COLORS.airfare,  borderRadius:3 },
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: ctx => ' '+ctx.dataset.label+': $'+ctx.raw+'M' }}},
+    scales:{
+      x:{ grid:{ display:false } },
+      y:{ grid:gridOpts, stacked:false, ticks:{ callback: v => '$'+v+'M' } }
+    }
+  }
+});
+
+/* ── CHART 6: 100% Stacked Cost Structure ── */
+new Chart(document.getElementById('costStructure'), {
+  type: 'bar',
+  data: {
+    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+    datasets:[
+      { label:'Airplane (58.14%)', data:[58.14,58.14,58.14,58.14,58.14], backgroundColor:COLORS.airfare,  borderRadius:0 },
+      { label:'Hotel (18.60%)',    data:[18.60,18.60,18.60,18.60,18.60], backgroundColor:COLORS.hotel,    borderRadius:0 },
+      { label:'Medical (23.26%)', data:[23.26,23.26,23.26,23.26,23.26], backgroundColor:COLORS.medical,  borderRadius:0 },
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: ctx => ' '+ctx.dataset.label+': '+ctx.raw+'%' }}},
+    scales:{
+      x:{ grid:{ display:false }, stacked:true },
+      y:{ grid:gridOpts, stacked:true, ticks:{ callback: v => v+'%' }, max:100 }
+    }
+  }
+});
+
+/* ── CHART 7: Expense Scaling by Category ── */
+new Chart(document.getElementById('expenseScaling'), {
+  type: 'line',
+  data: {
+    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+    datasets:[
+      { label:'Total Patient Costs', data:[0.4,1.7,3.4,17.2,51.6], borderColor:'#D93A2A', backgroundColor:'rgba(217,58,42,.07)', fill:true, tension:.35, pointRadius:3, borderWidth:2.5 },
+      { label:'Staffing Costs',      data:[0.3,0.3,0.3,2.0, 2.0],  borderColor:'#1A3FA8', backgroundColor:'transparent', tension:.35, pointRadius:3, borderDash:[4,3] },
+      { label:'Partnerships',        data:[0.1,0.1,0.1,1.0, 1.0],  borderColor:'#C2760A', backgroundColor:'transparent', tension:.35, pointRadius:3, borderDash:[4,3] },
+      { label:'Marketing',           data:[0.02,0.06,0.1,0.15,0.2],borderColor:'#0E9B6A', backgroundColor:'transparent', tension:.35, pointRadius:3, borderDash:[4,3] },
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: ctx => ' '+ctx.dataset.label+': $'+ctx.raw+'M' }}},
+    scales:{
+      x:{ grid:{ display:false } },
+      y:{ grid:gridOpts, ticks:{ callback: v => '$'+v+'M' } }
+    }
+  }
+});
+
+/* ══════════════════════════════════════════
+   SAVINGS CALCULATOR LOGIC
+   ══════════════════════════════════════════ */
+const DATA = {
+  procedures: {
+    implant:   { label:'Single Dental Implant',        usaMin:3000, usaMax:5000, mexico:850,  costarica:1150, hotelRate:75,  waitUS:60,  waitAbroad:5 },
+    crown:     { label:'Abutment & Crown',              usaMin:1500, usaMax:3000, mexico:900,  costarica:1100, hotelRate:75,  waitUS:45,  waitAbroad:5 },
+    arch:      { label:'Full Arch Restoration',         usaMin:25000,usaMax:40000,mexico:10750,costarica:11250,hotelRate:90,  waitUS:135, waitAbroad:5 },
+    fullmouth: { label:'Full Mouth Restoration',        usaMin:60000,usaMax:80000,mexico:20500,costarica:23000,hotelRate:90,  waitUS:270, waitAbroad:5 },
+  }
+};
+
+function fmt(n){ return '$' + Math.round(n).toLocaleString(); }
+function pct(saving, base){ return Math.round((saving/base)*100) + '% savings'; }
+
+function updateCalc(){
+  const proc    = document.getElementById('calc-procedure').value;
+  const dest    = document.getElementById('calc-dest').value;
+  const flight  = parseInt(document.getElementById('calc-flight').value);
+  const nights  = parseInt(document.getElementById('calc-nights').value);
+  document.getElementById('flight-val').textContent = '$'+flight;
+  document.getElementById('nights-val').textContent = nights+' night'+(nights>1?'s':'');
+
+  const p = DATA.procedures[proc];
+  const usMid = Math.round((p.usaMin + p.usaMax) / 2);
+  const treatmentAbroad = dest === 'mexico' ? p.mexico : p.costarica;
+  const hotelTotal = p.hotelRate * nights;
+  const totalAbroad = treatmentAbroad + flight + hotelTotal;
+  const saving = usMid - totalAbroad;
+
+  document.getElementById('res-us').textContent     = fmt(usMid);
+  document.getElementById('res-abroad').textContent = fmt(totalAbroad);
+  document.getElementById('res-saving').textContent = saving > 0 ? fmt(saving) : '-$'+Math.abs(Math.round(saving)).toLocaleString();
+  document.getElementById('res-pct').textContent    = saving > 0 ? pct(saving, usMid) : 'Higher than domestic';
+  document.getElementById('res-saving').className   = 'cr-value ' + (saving > 0 ? 'green' : 'red');
+
+  document.getElementById('bd-treatment').textContent = fmt(treatmentAbroad);
+  document.getElementById('bd-flight').textContent    = fmt(flight);
+  document.getElementById('bd-hotel').textContent     = fmt(hotelTotal);
+  document.getElementById('bd-total').textContent     = fmt(totalAbroad);
+}
+
+['calc-procedure','calc-dest','calc-flight','calc-nights'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateCalc);
+  document.getElementById(id).addEventListener('change', updateCalc);
+});
+updateCalc();
+
+/* ── SCROLL REVEAL ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }});
+}, { threshold:0.07 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
