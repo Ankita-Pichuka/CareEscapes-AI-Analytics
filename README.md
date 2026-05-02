@@ -4,7 +4,7 @@
 > **Role:** Graduate Data Analyst (Sponsor Project)
 > **Sponsor:** CareEscapes AI — AI-powered medical tourism platform
 
-**[View Portfolio Case Study](https://ankita-pichuka.netlify.app/careescapes-ai-portfolio-final)** &nbsp;·&nbsp; **[LinkedIn](https://linkedin.com/in/ankita-pichuka)**
+**[View Portfolio Case Study](https://careescapes-medical-analytics.netlify.app/)** &nbsp;·&nbsp; **[LinkedIn](https://linkedin.com/in/ankita-pichuka)**
 
 ---
 
